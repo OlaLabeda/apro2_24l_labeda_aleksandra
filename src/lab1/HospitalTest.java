@@ -3,6 +3,9 @@ package lab1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Aleksandra Łabęda, Jan Kozaczuk
+ */
 class HospitalTest {
 
     @Test
