@@ -1,0 +1,11 @@
+#compiled class files
+*.class
+#log files
+*.log
+#intellij files
+.idea/
+
+*.iml
+# Ignore Javadoc output directory
+doc/
+*.plr
