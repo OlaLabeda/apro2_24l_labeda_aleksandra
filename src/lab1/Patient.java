@@ -3,6 +3,9 @@ package lab1;
 
 import java.util.Objects;
 
+/**
+ * @author Aleksandra Łabęda, Jan Kozaczuk
+ */
 public class Patient implements Comparable<Patient> {
 
     private String name;
