@@ -9,6 +9,10 @@ import java.util.LinkedList;
 class Hospital {
     private LinkedList<Patient>[] priorityQueues;
 
+    /**
+     * Konstruktor tworzy 4 kolejki priorytetowe -
+     * kazda dla kazdefo priorytetu
+     */
     public Hospital() {
         this.priorityQueues = new LinkedList[4];
         for (int i = 0; i < 4; i++) {
@@ -16,6 +20,10 @@ class Hospital {
         }
     }
 
+    /**
+     * Metoda dodaje pacjenta do kolejki
+     * @param patient
+     */
     public void addPatient(Patient patient) {
         priorityQueues[patient.getPriority() - 1].add(patient);
     }
