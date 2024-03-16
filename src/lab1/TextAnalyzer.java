@@ -3,13 +3,16 @@ package lab1;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
+/**
+ * @author Aleksandra Łabęda, Jan Kozaczuk
+ */
 
 public class TextAnalyzer {
     public static void main(String[] args) {
         DynamicPriorityQueue<String> queue = new DynamicPriorityQueue<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("src\\lab1\\sample.txt"))) {       String line;
+        try (BufferedReader br = new BufferedReader(new FileReader("src\\lab1\\sample.txt"))) {
+            String line;
             while ((line = br.readLine()) != null) {
                 String[] words = line.split("\\s+");
                 for (String word : words) {

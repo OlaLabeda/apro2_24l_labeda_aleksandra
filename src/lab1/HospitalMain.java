@@ -2,11 +2,10 @@ package lab1;
 
 /**
  * @author Aleksandra Łabęda, Jan Kozaczuk
- *
  */
 
 public class HospitalMain {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         Hospital hospital = new Hospital();
 

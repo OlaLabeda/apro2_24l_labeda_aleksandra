@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * @author Aleksandra Łabęda, Jan Kozaczuk
  */
 class Hospital {
-    private LinkedList<Patient>[] priorityQueues;
+    private final LinkedList<Patient>[] priorityQueues;
 
     /**
      * Konstruktor tworzy 4 kolejki priorytetowe -
@@ -22,6 +22,7 @@ class Hospital {
 
     /**
      * Metoda dodaje pacjenta do kolejki
+     *
      * @param patient
      */
     public void addPatient(Patient patient) {
@@ -30,6 +31,7 @@ class Hospital {
 
     /**
      * Metoda usuwa pacjenta o najwyższym priorytecie z kolejki
+     *
      * @return
      */
 
@@ -57,6 +59,7 @@ class Hospital {
 
     /**
      * Metoda zwraca pacjenta o najwyższym priorytecie
+     *
      * @return
      */
     public Patient getNextPatient() {

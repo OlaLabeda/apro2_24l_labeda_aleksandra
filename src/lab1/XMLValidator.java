@@ -1,11 +1,10 @@
 package lab1;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Stack;
 import java.util.Properties;
+import java.util.Stack;
 
 /**
  * @author Aleksandra Łabęda, Jan Kozaczuk
@@ -37,15 +36,14 @@ public class XMLValidator {
 
     private static Properties readPropertiesFile(String filePath) throws IOException {
         Properties properties = new Properties();
-        try (FileReader reader = new FileReader(filePath);
-             BufferedReader bufferedReader = new BufferedReader(reader)) {
+        try (FileReader reader = new FileReader(filePath); BufferedReader bufferedReader = new BufferedReader(reader)) {
             //wczytaj wlasciwosci z pliku tekstowego
             properties.load(bufferedReader);
         }
         return properties;
     }
 
-    public static void chechValidation (String xmlFilePath, Properties properties) throws IOException {
+    public static void chechValidation(String xmlFilePath, Properties properties) throws IOException {
         if (validateXML(xmlFilePath, properties)) {
             System.out.println("Plik XML jest poprawny.");
         } else {
@@ -62,20 +60,20 @@ public class XMLValidator {
             for (int i = 0; i < count; i++) {
                 final String propertyName = "e" + (i + 1);
                 final String markUp = properties.getProperty(propertyName);
-                tags[i]=markUp;
+                tags[i] = markUp;
             }
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.trim().split("[<>]");
-                for(String word : tokens){
+                for (String word : tokens) {
                     if (!word.startsWith("/")) {
                         // jesli tag nie jest zamkniety dodaj go do stosu
-                        if(contains(tags, word)) {
+                        if (contains(tags, word)) {
                             stack.push(word);
                         }
                     } else {
                         // jesli tag jest zamkniety sprawdz poprawnosc i usun ze stosu
                         word = word.substring(1);
-                        if(!contains(tags, word)) {
+                        if (!contains(tags, word)) {
                             stack.push(word);
                         }
                         if (stack.isEmpty() || !stack.pop().equals(word)) {
@@ -89,11 +87,10 @@ public class XMLValidator {
         }
     }
 
-    public static boolean contains(String[] tags, String word){
+    public static boolean contains(String[] tags, String word) {
         //sprawdz czy dany tag znajduje sie w tablicy tagow
-        for(String tag:tags){
-            if(tag.equals(word))
-                return true;
+        for (String tag : tags) {
+            if (tag.equals(word)) return true;
         }
         return false;
     }

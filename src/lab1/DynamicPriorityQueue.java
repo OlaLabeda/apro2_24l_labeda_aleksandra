@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  */
 
 public class DynamicPriorityQueue<T extends Comparable<T>> {
-    private List<T> heap;
+    private final List<T> heap;
 
     public DynamicPriorityQueue() {
         heap = new ArrayList<>();
@@ -148,8 +148,7 @@ public class DynamicPriorityQueue<T extends Comparable<T>> {
     }
 
     public T findFirstLexicographicWord() {
-        if (isEmpty())
-            throw new NoSuchElementException("Queue is empty");
+        if (isEmpty()) throw new NoSuchElementException("Queue is empty");
 
         T firstLexicographicWord = heap.get(0);
         for (T item : heap) {
@@ -161,8 +160,7 @@ public class DynamicPriorityQueue<T extends Comparable<T>> {
     }
 
     public T findLastLexicographicWord() {
-        if (isEmpty())
-            throw new NoSuchElementException("Queue is empty");
+        if (isEmpty()) throw new NoSuchElementException("Queue is empty");
 
         T lastLexicographicWord = heap.get(0);
         for (T item : heap) {
