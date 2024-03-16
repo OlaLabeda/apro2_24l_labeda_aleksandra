@@ -1,6 +1,7 @@
 package lab1;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Stack;
@@ -30,7 +31,7 @@ public class XMLValidator {
             System.out.print("Plik test1fail: ");
             chechValidation(xmlFilePath, properties);
         } catch (IOException e) {
-            System.out.println("Wystąpił błąd podczas wczytywania pliku: " + e.getMessage());
+            System.out.println("Wystąpił błąd poczas wczytywania pliku: " + e.getMessage());
         }
     }
 
