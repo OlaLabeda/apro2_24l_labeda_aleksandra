@@ -3,6 +3,7 @@ package lab1;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Aleksandra Łabęda, Jan Kozaczuk
@@ -26,6 +27,19 @@ public class TextAnalyzer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        List<String> mostFrequentWords = queue.findMostFrequentWords();
+        System.out.println("Najczęściej występujące słowa:");
+        for (String word : mostFrequentWords) {
+            System.out.println(word);
+        }
+
+        List<String> leastFrequentWords = queue.findLeastFrequentWords();
+        System.out.println("\nNajrzadziej występujące słowa:");
+        for (String word : leastFrequentWords) {
+            System.out.println(word);
+        }
+
 
 
         // Znajdowanie najkrótszego i najdłuższego słowa
@@ -77,6 +91,10 @@ public class TextAnalyzer {
 
         System.out.println("Pierwsze słowo: " + firstWord2);
         System.out.println("Ostatnie słowo: " + lastWord2);
+
+
+
+
     }
 
 }

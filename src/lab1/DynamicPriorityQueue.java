@@ -1,8 +1,6 @@
 package lab1;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * @author Aleksandra Łabęda, Jan Kozaczuk
@@ -10,23 +8,97 @@ import java.util.NoSuchElementException;
 
 public class DynamicPriorityQueue<T extends Comparable<T>> {
     private final List<T> heap;
+    private final Map<T, Integer> wordCountMap;
 
     public DynamicPriorityQueue() {
         heap = new ArrayList<>();
+        wordCountMap = new HashMap<>();
     }
-
     /**
-     * wstawia nowy element do kolejki i przeprowadza operację swim(), aby przywrócić własności kopca.
-     *
-     * @param item
+     * Wstawia nowe słowo do kolejki i aktualizuje licznik jego wystąpień.
+     * @param item Nowe słowo.
      */
     public void insert(T item) {
         String trimmedItem = item.toString().trim();
-        if (!trimmedItem.isEmpty() && !heap.contains(trimmedItem)) {
+        if (!trimmedItem.isEmpty()) {
             heap.add((T) trimmedItem);
+            updateWordCount((T) trimmedItem); // Aktualizacja licznika wystąpień
             swim(heap.size() - 1);
         }
     }
+
+
+    /**
+     * Zwraca mapę zliczającą wystąpienia każdego słowa.
+     *
+     * @return Mapa zliczająca wystąpienia słów.
+     */
+    public Map<T, Integer> getWordCountMap() {
+        return wordCountMap;
+    }
+
+    /**
+     * Aktualizuje licznik wystąpień słowa.
+     * @param word Słowo, którego wystąpienie ma zostać zaktualizowane.
+     */
+    private void updateWordCount(T word) {
+        wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
+    }
+
+    public void removeAllMostFrequentWords() {
+        int maxFrequency = Collections.max(wordCountMap.values());
+        removeWordsByFrequency(maxFrequency);
+    }
+
+    public void removeAllLeastFrequentWords() {
+        int minFrequency = Collections.min(wordCountMap.values());
+        removeWordsByFrequency(minFrequency);
+    }
+
+    private void removeWordsByFrequency(int frequency) {
+        List<T> wordsToRemove = new ArrayList<>();
+        for (Map.Entry<T, Integer> entry : wordCountMap.entrySet()) {
+            if (entry.getValue() == frequency) {
+                wordsToRemove.add(entry.getKey());
+            }
+        }
+        for (T word : wordsToRemove) {
+            heap.remove(word);
+            wordCountMap.remove(word);
+        }
+    }
+    public List<T> findMostFrequentWords() {
+        int maxCount = 0;
+        List<T> mostFrequentWords = new ArrayList<>();
+        for (Map.Entry<T, Integer> entry : wordCountMap.entrySet()) {
+            int count = entry.getValue();
+            if (count > maxCount) {
+                mostFrequentWords.clear();
+                mostFrequentWords.add(entry.getKey());
+                maxCount = count;
+            } else if (count == maxCount) {
+                mostFrequentWords.add(entry.getKey());
+            }
+        }
+        return mostFrequentWords;
+    }
+
+    public List<T> findLeastFrequentWords() {
+        int minCount = Integer.MAX_VALUE;
+        List<T> leastFrequentWords = new ArrayList<>();
+        for (Map.Entry<T, Integer> entry : wordCountMap.entrySet()) {
+            int count = entry.getValue();
+            if (count < minCount) {
+                leastFrequentWords.clear();
+                leastFrequentWords.add(entry.getKey());
+                minCount = count;
+            } else if (count == minCount) {
+                leastFrequentWords.add(entry.getKey());
+            }
+        }
+        return leastFrequentWords;
+    }
+
 
     public void removeShortestWord() {
         T shortestWord = findShortestWord();
