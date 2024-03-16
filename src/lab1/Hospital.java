@@ -36,6 +36,7 @@ class Hospital {
     public Patient removeNextPatientWithHighestPriority() {
         for (LinkedList<Patient> queue : priorityQueues) {
             if (!queue.isEmpty()) {
+                //zwraca element ze szczytu kolejki i usuwa pacjenta o najwyższym priorytecie
                 return queue.poll();
             }
         }
@@ -54,4 +55,17 @@ class Hospital {
         return sb.toString();
     }
 
+    /**
+     * Metoda zwraca pacjenta o najwyższym priorytecie
+     * @return
+     */
+    public Patient getNextPatient() {
+        for (LinkedList<Patient> queue : priorityQueues) {
+            if (!queue.isEmpty()) {
+                //zwraca element ze szczytu kolejki bez usuwania go
+                return queue.peek();
+            }
+        }
+        return null;
+    }
 }
