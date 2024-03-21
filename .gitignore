@@ -9,3 +9,7 @@
 # Ignore Javadoc output directory
 doc/
 *.plr
+
+/build/
+/dist/
+/out/
