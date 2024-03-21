@@ -32,7 +32,7 @@ public class MinHeapPriorityQueue<T extends Comparable<T>> {
         if (isEmpty()) throw new NoSuchElementException("Kolejka jest pusta");
 
         // ustawia jako pierwszy element ostatni, po czym idzie w dół zamieniając elementy kopca tak, by zachować jego odpowiednią strukturę
-        queue.set(0, queue.get(size() - 1));
+        queue.set(0, queue.get(size() - 1)); // index + wartosc
         queue.remove(size() - 1);
         if (!isEmpty()) moveDown(0);
     }
