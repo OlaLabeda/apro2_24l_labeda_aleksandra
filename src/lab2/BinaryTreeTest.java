@@ -1,56 +1,97 @@
 package lab2;
-
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author Aleksandra Łabęda, Jan Kozaczuk
- * Tests for the BinaryTree class
-
+ * @author Jan Kozaczuk, Aleksandra Łabęda
  */
-/*
-    in a typical binary tree, nodes are organized so that values smaller
-    than the root value are placed in the left subtree, and values greater than the root value
-    are placed in the right subtree. This is because organizing nodes in this way allows for fast tree traversal
-    and other operations on it
- */
-public class BinaryTreeTest {
-
+class BinaryTreeTest {
     @Test
-    public void testLevelOrderTraversalInNormalBinaryTree() {
-        BinaryTree<Integer> binaryTree = new BinaryTree<>();
-        binaryTree.add(5);
-        binaryTree.add(3);
-        binaryTree.add(7);
-        binaryTree.add(2);
-        binaryTree.add(4);
-        binaryTree.add(6);
-        binaryTree.add(8);
+    void iteratorOnRegularIntegerTree() {
+        BinaryTree<Integer> intTree = new BinaryTree<>();
+        StringBuilder treePrintout = new StringBuilder();
 
-        StringBuilder sb = new StringBuilder();
-        for (Integer value : binaryTree) {
-            sb.append(value).append(" ");
+        intTree.insert(3);  // Drzewo:    3
+        intTree.insert(4);  //          2   4
+        intTree.insert(7);  //         1 2 3 7
+        intTree.insert(3);
+        intTree.insert(2);
+        intTree.insert(2);
+        intTree.insert(1);
+
+        // spodziewany wydruk: "3 2 4 1 2 3 7 "
+        for(Integer value : intTree) {
+            treePrintout.append(value).append(' ');
         }
 
-        assertEquals("5 3 7 2 4 6 8 ", sb.toString());
+        assertEquals("3 2 4 1 2 3 7 ", treePrintout.toString());
     }
 
     @Test
-    public void testLevelOrderTraversalInDegenerateBinaryTree() {
-        BinaryTree<Integer> binaryTree = new BinaryTree<>();
-        binaryTree.add(1);
-        binaryTree.add(2);
-        binaryTree.add(3);
-        binaryTree.add(4);
-        binaryTree.add(5);
-        binaryTree.add(6);
-        binaryTree.add(7);
+    void iteratorOnRegularStringTree() {
+        BinaryTree<String> stringTree = new BinaryTree<>();
+        StringBuilder treePrintout = new StringBuilder();
 
-        StringBuilder sb = new StringBuilder();
-        for (Integer value : binaryTree) {
-            sb.append(value).append(" ");
+        stringTree.insert("bb");  // Drzewo:      bb
+        stringTree.insert("cb");  //          ab      cb
+        stringTree.insert("cc");  //        aa  ac  bc  cc
+        stringTree.insert("bc");  //            ba  ca
+        stringTree.insert("ab");
+        stringTree.insert("ac");
+        stringTree.insert("ca");
+        stringTree.insert("ba");
+        stringTree.insert("aa");
+
+        // spodziewany wydruk: "bb ab cb aa ac bc cc ba ca "
+        for(String str : stringTree) {
+            treePrintout.append(str).append(' ');
         }
 
-        assertEquals("1 2 3 4 5 6 7 ", sb.toString());
+        assertEquals("bb ab cb aa ac bc cc ba ca ", treePrintout.toString());
+    }
+
+    @Test
+    void iteratorOnDegenerateIntegerTree() {
+        BinaryTree<Integer> intTree = new BinaryTree<>();
+        StringBuilder treePrintout = new StringBuilder();
+
+        intTree.insert(1);  // Drzewo:    1
+        intTree.insert(2);  //            2
+        intTree.insert(2);  //            2
+        intTree.insert(3);  //            3
+        intTree.insert(3);  //            3
+        intTree.insert(4);  //            4
+        intTree.insert(7);  //            7
+
+        // spodziewany wydruk: "1 2 2 3 3 4 7 "
+        for(Integer value : intTree) {
+            treePrintout.append(value).append(' ');
+        }
+
+        assertEquals("1 2 2 3 3 4 7 ", treePrintout.toString());
+    }
+
+    @Test
+    void iteratorOnDegenerateStringTree() {
+        BinaryTree<String> stringTree = new BinaryTree<>();
+        StringBuilder treePrintout = new StringBuilder();
+
+        stringTree.insert("aa");  // Drzewo:      aa
+        stringTree.insert("ab");  //              ab
+        stringTree.insert("ac");  //              ac
+        stringTree.insert("ba");  //              ba
+        stringTree.insert("bb");  //              bb
+        stringTree.insert("bc");  //              bc
+        stringTree.insert("ca");  //              ca
+        stringTree.insert("cb");  //              cb
+        stringTree.insert("cc");  //              cc
+
+        // spodziewany wydruk: "aa ab ac ba bb bc ca cb cc "
+        for(String str : stringTree) {
+            treePrintout.append(str).append(' ');
+        }
+
+        assertEquals("aa ab ac ba bb bc ca cb cc ", treePrintout.toString());
     }
 }
+

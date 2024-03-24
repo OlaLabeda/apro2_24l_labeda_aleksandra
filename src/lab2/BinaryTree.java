@@ -1,89 +1,35 @@
 package lab2;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.NoSuchElementException;
 
 /**
- * @Author Aleksandra Łabęda, Jan Kozaczuk
+ * Implementacja drzewa binarnego w postaci generycznej klasy.
+ * @param <T> typ implementujący interfejs Comparable
  *
- * A class representing a binary tree
- * @param <T>
+ * @author Jan Kozaczuk, Aleksandra Łabęda
  */
-
 public class BinaryTree<T extends Comparable<T>> implements Iterable<T> {
-    private TreeNode root;
+    private final Node<T> root; // korzeń drzewa binarnego
 
-    private class TreeNode {
-        private T data;
-        private TreeNode left;
-        private TreeNode right;
-
-        public TreeNode(T data) {
-            this.data = data;
-        }
+    public BinaryTree() {
+        this.root = new Node<>(null);
     }
 
     /**
-     * Adds a value to the binary tree
-     * @param current
-     * @param value
-     * @return
+     * Umieszcza podany element w drzewie binarnym.
+     * @param e umieszczany element
      */
-    private TreeNode addRecursive(TreeNode current, T value) {
-        //if the current node is null, we have reached the end of the tree
-        //base case
-        if (current == null) {
-            return new TreeNode(value);
-        }
-        //compare the value to the current node in order to decide where to go next
-        // if the value is less than the current node, go left because it is smaller
-        int compareResult = value.compareTo(current.data);
-        if (compareResult < 0) {
-            current.left = addRecursive(current.left, value);
-        } else if (compareResult > 0) {
-            current.right = addRecursive(current.right, value);
-        } else {
-            // value already exists
-            return current;
-        }
-
-        return current;
+    public void insert(T e) {
+        root.insert(e);
     }
 
     /**
-     * Adds a value to the binary tree
-     * @param value
+     * Drukuje trzymane w drzewie wartości poziom po poziomie, od lewej do prawej.
      */
-    public void add(T value) {
-        root = addRecursive(root, value);
-    }
-
-    /**
-     * prints the tree in level order
-     */
-    public void levelOrder() {
-        if (root == null) {
-            return;
-        }
-        //create a queue to store the nodes
-        Queue<TreeNode> queue = new LinkedList<>();
-        //add the root to the queue
-        queue.offer(root);
-
-        //while the queue is not empty, print the nodes and add their children to the queue
-        while (!queue.isEmpty()){
-            //remove the first node from the queue
-            TreeNode temp = queue.poll();
-            //print the node
-            System.out.print(temp.data + " ");
-            //add the children to the queue
-            if (temp.left != null) {
-                queue.offer(temp.left);
-            }
-            //add the children to the queue
-            if (temp.right != null) {
-                queue.offer(temp.right);
-            }
+    public void print() {
+        for(T value : this) {
+            System.out.print(value + " ");
         }
     }
 
@@ -92,17 +38,17 @@ public class BinaryTree<T extends Comparable<T>> implements Iterable<T> {
         return new TreeIterator();
     }
 
-    //inner class that implements the iterator
+    /**
+     * Zagnieżdżona klasa implementująca interfejs Iterator.
+     * Iterator przechodzi po każdym węźle drzewa poziom po poziomie, od lewej do prawej.
+     */
     private class TreeIterator implements Iterator<T> {
-        private Queue<TreeNode> queue;
+        // iterator przechodzi po drzewie w oparciu na kolejce węzłów
+        private final LinkedList<Node<T>> queue;
 
         public TreeIterator() {
-            //create a queue to store the nodes
             queue = new LinkedList<>();
-            //add the root to the queue
-            if (root != null) {
-                queue.offer(root);
-            }
+            if(root != null) queue.add(root);
         }
 
         @Override
@@ -112,20 +58,48 @@ public class BinaryTree<T extends Comparable<T>> implements Iterable<T> {
 
         @Override
         public T next() {
-            if (!hasNext()) {
-                throw new RuntimeException("No more elements in the tree");
-            }
+            if(!hasNext()) throw new NoSuchElementException();
 
-            TreeNode current = queue.poll();
+            // jako bieżący węzeł wyciągany jest pierwszy węzeł z kolejki
+            Node<T> current = queue.poll();
+            if(current == null) throw new NullPointerException();
 
-            if (current.left != null) {
-                queue.offer(current.left);
-            }
-            if (current.right != null) {
-                queue.offer(current.right);
-            }
+            // istniejące dzieci bieżącego węzła zostają dodane na koniec kolejki
+            if(current.leftChild != null) queue.add(current.leftChild);
+            if(current.rightChild != null) queue.add(current.rightChild);
 
-            return current.data;
+            // zwraca wartość bieżącego węzła
+            return current.value;
         }
     }
+
+    public static void main(String[] args) {
+        BinaryTree<Integer> intTree = new BinaryTree<>();
+        BinaryTree<String> stringTree = new BinaryTree<>();
+
+        intTree.insert(3);
+        intTree.insert(4);
+        intTree.insert(7);
+        intTree.insert(3);
+        intTree.insert(2);
+        intTree.insert(2);
+        intTree.insert(1);
+
+        stringTree.insert("bb");
+        stringTree.insert("cb");
+        stringTree.insert("cc");
+        stringTree.insert("bc");
+        stringTree.insert("ab");
+        stringTree.insert("ac");
+        stringTree.insert("ca");
+        stringTree.insert("ba");
+        stringTree.insert("aa");
+
+        System.out.println("Pierwsze drzewo:");
+        intTree.print();
+        System.out.println("\nDrugie drzewo:");
+        stringTree.print();
+    }
 }
+
+
